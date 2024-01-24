@@ -1,0 +1,6 @@
+{
+	"jwtPrivateKey": "unsecureKey",
+	"db": "mongodb+srv://pdp-admin:VSgTaQv9Z!T.-6s@pdp.kb99ove.mongodb.net/movies",
+	"port": "4000",
+	"onlyAdmin": true
+}
