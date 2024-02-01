@@ -94,16 +94,16 @@ const Login: React.FC = () => {
       const user = Mappers.User(meRes.data);
       navigate('/movies');
 
-      message.success(`Successfully Logged in. Hi ${user.name} 🎉`);
+      message.success(`👋🏻 Welcome ${user.name}!`);
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <div className="container mx-auto flex flex-col items-center pt-10">
+    <div className="container mx-auto flex flex-col items-center pt-20">
       <Form autoComplete="off" onFinish={handleSubmit} className="flex w-[500px] flex-col gap-2">
-        <Typography className="text-center text-3xl">Login Form</Typography>
+        <Typography className="text-center text-3xl text-blue-700">Login Form</Typography>
         <Form.Item
           rules={[
             {
@@ -116,7 +116,7 @@ const Login: React.FC = () => {
           hasFeedback
           name="email"
         >
-          <Input id="email" type="email" placeholder="email" size="large" />
+          <Input id="email" type="email" placeholder="Email" size="large" />
         </Form.Item>
         <Form.Item
           rules={[
@@ -130,14 +130,16 @@ const Login: React.FC = () => {
           hasFeedback
           name="password"
         >
-          <Input.Password id="password" placeholder="password" size="large" />
+          <Input.Password id="password" placeholder="Password" size="large" />
         </Form.Item>
         <Form.Item>
-          <Button block type="primary" htmlType="submit" size="large">
+          <Button className="uppercase" block type="primary" htmlType="submit" size="large">
             Login
           </Button>
         </Form.Item>
-        <Link to="auth/register">go to login</Link>
+        <Link className="w-max self-end" to="/auth/register">
+          go to register
+        </Link>
       </Form>
     </div>
   );
