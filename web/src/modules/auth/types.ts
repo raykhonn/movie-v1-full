@@ -28,13 +28,26 @@ export namespace IApi {
 
   export namespace Register {
     export interface Request extends IForm.Register {}
-    export interface Response extends IEntity.User {}
+    export interface Response extends IEntity.User {
+      data: any;
+    }
   }
 
   export namespace Me {
     export interface Request {
       token: string;
     }
-    export interface Response extends IEntity.User {}
+    export interface Response extends IEntity.User {
+      [x: string]: any;
+    }
   }
+}
+export interface IContext {
+  user: IEntity.User | null;
+  isLoading: boolean;
+  isAuthenticated: boolean;
+  methods: {
+    login(user: IEntity.User): void;
+    logout(): void;
+  };
 }

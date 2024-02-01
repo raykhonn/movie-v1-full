@@ -1,25 +1,99 @@
-import { Button, Input, InputRef, message, Typography } from 'antd';
-import { Api, Mappers } from 'modules/auth';
+// import React, { FC, useContext } from 'react';
+// import { Button, Form, Input, message } from 'antd';
+// import { Api, Types } from 'modules/auth';
+// import { session } from 'services';
+// import { Link } from 'react-router-dom';
+// import { MainContext } from 'main';
+
+// const Login: FC = () => {
+//   const { login } = useContext(MainContext);
+
+//   const onFinish = async (values: Types.IForm.Login) => {
+//     try {
+//       const { data: loginResponse } = await Api.Login(values);
+//       const token = loginResponse.data;
+
+//       session.add(token);
+
+//       const { data: meResponse } = await Api.Me({ token });
+//       const user = meResponse.data;
+
+//       login(user);
+
+//       message.success(`👋🏻 Welcome ${user.firstName}!`);
+//     } catch (error) {
+//       console.error('Login failed:', error);
+
+//       message.error('Login failed. Please check your credentials and try again.');
+//     }
+//   };
+
+//   return (
+//     <div className="container mx-auto flex flex-col items-center pt-10">
+//       <h1>Login Form</h1>
+//       <Form autoComplete="off" onFinish={onFinish} className="flex w-[500px] flex-col gap-2">
+//         <Form.Item
+//           rules={[
+//             {
+//               required: true,
+//               message: 'Enter your email address',
+//               whitespace: true
+//             }
+//           ]}
+//           hasFeedback
+//           name="email"
+//         >
+//           <Input size="large" placeholder="Email" />
+//         </Form.Item>
+//         <Form.Item
+//           rules={[
+//             {
+//               required: true,
+//               message: 'Enter password',
+//               whitespace: true
+//             },
+//             {
+//               min: 8,
+//               message: 'Please enter your password'
+//             }
+//           ]}
+//           hasFeedback
+//           name="password"
+//         >
+//           <Input.Password size="large" placeholder="Password" />
+//         </Form.Item>
+//         <Form.Item>
+//           <Button block size="large" type="primary" htmlType="submit" className="uppercase">
+//             Login
+//           </Button>
+//         </Form.Item>
+//         <Link to="/auth/register" className="w-max self-end">
+//           Go to Register
+//         </Link>
+//       </Form>
+//     </div>
+//   );
+// };
+
+// export default Login;
+
+import { Button, Form, Input, message, Typography } from 'antd';
+import { Api, Mappers, Types } from 'modules/auth';
 import React, { Component } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-export default class Login extends Component {
-  emailRef = React.createRef<InputRef>();
-  passwordRef = React.createRef<InputRef>();
+// export default class Login extends Component {
+const Login: React.FC = () => {
+  const navigate = useNavigate();
 
-  handleSubmit: React.FormEventHandler = async e => {
-    e.preventDefault();
-
-    const email = this.emailRef.current?.input?.value!;
-    const password = this.passwordRef.current?.input?.value!;
-
+  const handleSubmit = async (values: Types.IForm.Login) => {
     try {
-      const loginRes = await Api.Login({ email, password });
+      const loginRes = await Api.Login(values);
       const token = loginRes.data.data;
-
-      localStorage.setItem('token', token);
 
       const meRes = await Api.Me({ token });
       const user = Mappers.User(meRes.data);
+      navigate('/movies');
 
       message.success(`Successfully Logged in. Hi ${user.name} 🎉`);
     } catch (err) {
@@ -27,18 +101,47 @@ export default class Login extends Component {
     }
   };
 
-  render() {
-    return (
-      <div className="container mx-auto flex flex-col items-center  pt-28">
-        <form onSubmit={this.handleSubmit} className="flex w-[600px] flex-col gap-2">
-          <Typography className="text-center text-3xl">Login Form</Typography>
-          <Input autoFocus ref={this.emailRef} type="email" placeholder="Enter your email.." size="large" />
-          <Input.Password ref={this.passwordRef} placeholder="Enter your password.." size="large" />
-          <Button type="primary" htmlType="submit" size="large">
+  return (
+    <div className=" container mx-auto flex h-full flex-col items-center  gap-2">
+      <Form autoComplete="off" onFinish={handleSubmit} className="flex w-[800px] flex-col gap-2">
+        <Typography className="text-center text-3xl">Login Form</Typography>
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              message: 'Enter your email',
+              whitespace: true,
+              type: 'email'
+            }
+          ]}
+          hasFeedback
+          name="email"
+        >
+          <Input id="email" type="email" placeholder="email" size="large" />
+        </Form.Item>
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              message: 'Enter your password',
+              whitespace: true,
+              min: 6
+            }
+          ]}
+          hasFeedback
+          name="password"
+        >
+          <Input.Password id="password" placeholder="password" size="large" />
+        </Form.Item>
+        <Form.Item>
+          <Button block type="primary" htmlType="submit" size="large">
             Login
           </Button>
-        </form>
-      </div>
-    );
-  }
-}
+        </Form.Item>
+        <Link to="auth/register">go to login</Link>
+      </Form>
+    </div>
+  );
+};
+
+export default Login;

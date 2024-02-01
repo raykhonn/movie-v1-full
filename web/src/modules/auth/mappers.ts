@@ -1,7 +1,8 @@
 import { IEntity } from './types';
+import get from 'lodash/get';
 
 export const User = (item?: any): IEntity.User => ({
-  id: item?._id || '',
-  name: item?.name || '',
-  email: item?.email || ''
+  id: get(item, '_id') || '',
+  name: get(item, '_name') || '',
+  email: get(item, '_email') || ''
 });
