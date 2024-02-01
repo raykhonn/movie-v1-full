@@ -79,7 +79,6 @@
 
 // export default Register;
 
-
 import { Button, Form, Input, message } from 'antd';
 import Typography from 'antd/es/typography/Typography';
 import { Api, Types } from 'modules/auth';
@@ -92,7 +91,7 @@ const Register: React.FC = () => {
     try {
       const loginRes = await Api.Register(values);
       navigate('/auth/login');
-      
+
       message.success(`Successfully registered in. Hi ${loginRes.data.name} 🎉`);
     } catch (err) {
       console.log(err);
