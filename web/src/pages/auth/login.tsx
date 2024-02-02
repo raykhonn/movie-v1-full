@@ -1,11 +1,11 @@
 import { Button, Form, Input, message, Typography } from 'antd';
 import { Api, Mappers, Types } from 'modules/auth';
-import React, { Component } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-
+  
   const handleSubmit = async (values: Types.IForm.Login) => {
     try {
       const loginRes = await Api.Login(values);
@@ -17,14 +17,16 @@ const Login: React.FC = () => {
 
       message.success(`Successfully Logged in. Hi ${user.name} 🎉`);
     } catch (err) {
+      message.error(`login failed`);
+
       console.log(err);
     }
   };
 
   return (
-    <div className="container mx-auto flex flex-col items-center pt-20">
-      <Form autoComplete="off" onFinish={handleSubmit} className="flex w-[500px] flex-col gap-2">
-        <Typography className="text-center text-3xl text-blue-700">Login Form</Typography>
+    <div className=" container mx-auto flex h-full flex-col items-center  gap-2">
+      <Form autoComplete="off" onFinish={handleSubmit} className="flex w-[800px] flex-col gap-2">
+        <Typography className="text-center text-3xl">Login Form</Typography>
         <Form.Item
           rules={[
             {
@@ -37,7 +39,7 @@ const Login: React.FC = () => {
           hasFeedback
           name="email"
         >
-          <Input id="email" type="email" placeholder="Email" size="large" />
+          <Input id="email" type="email" placeholder="email" size="large" />
         </Form.Item>
         <Form.Item
           rules={[
@@ -51,16 +53,14 @@ const Login: React.FC = () => {
           hasFeedback
           name="password"
         >
-          <Input.Password id="password" placeholder="Password" size="large" />
+          <Input.Password id="password" placeholder="password" size="large" />
         </Form.Item>
         <Form.Item>
-          <Button className="uppercase" block type="primary" htmlType="submit" size="large">
+          <Button block type="primary" htmlType="submit" size="large">
             Login
           </Button>
         </Form.Item>
-        <Link className="w-max self-end" to="/auth/register">
-          go to register
-        </Link>
+        <NavLink to="/auth/register">Register</NavLink>
       </Form>
     </div>
   );

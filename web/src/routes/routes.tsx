@@ -1,7 +1,7 @@
+import { Navbar } from 'components';
+import { Auth, Movies } from 'pages';
 import React from 'react';
 import { Navigate, Route, Routes as Switch, useNavigate } from 'react-router-dom';
-import { Auth, Movies } from 'pages';
-import { Navbar } from 'components';
 
 const Routes: React.FC = () => {
   const navigate = useNavigate();
@@ -29,3 +29,8 @@ const Routes: React.FC = () => {
 };
 
 export default Routes;
+
+
+/*
+
+*/

@@ -2,7 +2,7 @@ import { Button, Form, Input, message } from 'antd';
 import Typography from 'antd/es/typography/Typography';
 import { Api, Types } from 'modules/auth';
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -11,16 +11,16 @@ const Register: React.FC = () => {
       const loginRes = await Api.Register(values);
       navigate('/auth/login');
 
-      message.success(`Successfully registered in. Hi ${loginRes.data.name}`);
+      message.success(`Successfully registered in. Hi ${loginRes.data.name} 🎉`);
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <div className="container mx-auto flex flex-col items-center pt-20">
-      <Form autoComplete="off" onFinish={handleSubmit} className="flex w-[500px] flex-col gap-2">
-        <Typography className="text-center text-3xl text-blue-700">Register Form</Typography>
+    <div className="container mx-auto flex flex-col items-center justify-center gap-2 ">
+      <Form autoComplete="off" onFinish={handleSubmit} className="flex w-[800px] flex-col gap-2">
+        <Typography className="text-center text-3xl">Register Form</Typography>
         <Form.Item
           rules={[
             {
@@ -34,7 +34,7 @@ const Register: React.FC = () => {
           hasFeedback
           name="name"
         >
-          <Input id="name" placeholder=" Name" size="large" />
+          <Input id="name" placeholder="Your name" size="large" />
         </Form.Item>
         <Form.Item
           rules={[
@@ -48,7 +48,7 @@ const Register: React.FC = () => {
           hasFeedback
           name="email"
         >
-          <Input id="email" type="email" placeholder="Email" size="large" />
+          <Input id="email" type="email" placeholder="email" size="large" />
         </Form.Item>
         <Form.Item
           rules={[
@@ -62,17 +62,14 @@ const Register: React.FC = () => {
           hasFeedback
           name="password"
         >
-          <Input.Password id="password" placeholder="Password" size="large" />
+          <Input.Password id="password" placeholder="password" size="large" />
         </Form.Item>
         <Form.Item>
-          <Button className="uppercase" block type="primary" htmlType="submit">
+          <Button block type="primary" htmlType="submit">
             Register
           </Button>
         </Form.Item>
-        <Link className="w-max self-end" to="/auth/login ">
-          go to login
-        </Link>
-      </Form>
+       </Form>
     </div>
   );
 };

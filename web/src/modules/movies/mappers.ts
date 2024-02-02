@@ -2,10 +2,10 @@ import get from 'lodash/get';
 import { IEntity } from './types';
 
 export const Genre = (item?: any): IEntity.Genre => ({
-  id: get(item, '_id') || '',
-  name: get(item, 'name') || ''
+  id: item?._id || '',
+  name: item?.name || ''
 });
-
+ 
 export const Movie = (item?: any): IEntity.Movie => ({
   id: get(item, '_id') || '',
   title: get(item, 'title') || '',

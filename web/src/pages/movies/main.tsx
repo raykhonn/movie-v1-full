@@ -23,12 +23,32 @@ export default class Main extends Component<{}, MainState> {
     movies: [],
     genreId: 'all',
     pageSize: 3,
-    search: ''
+    search: '',
   };
 
+  delete = async (movie: IEntity.Movie) => {
+    try {
+
+      // const token = localStorage.getItem('token') || '';
+
+      const { movies } = this.state;
+
+      const allMovies = movies.filter(m => m.id !== movie.id);
+      this.setState({ movies: allMovies });
+
+      await Api.Movie.Delete({ id: movie.id });
+
+      message.success('Movie deleted successfully');
+    } catch (err: any) {
+      if (err instanceof AxiosError) {
+        message.error(err.response?.data);
+      }
+    }
+  };
   async componentDidMount() {
     try {
       const genreResponse = await Api.Genre.List();
+
       const genres = (genreResponse.data || []).map(Mappers.Genre);
 
       genres.unshift({ id: 'all', name: 'All Genres' });
@@ -37,7 +57,7 @@ export default class Main extends Component<{}, MainState> {
       const movies = (movieResponse.data || []).map(Mappers.Movie);
 
       this.setState({ genres, movies, isLoading: false });
-    } catch (err) {
+    } catch (err: any) {
       if (err instanceof AxiosError) {
         message.error(err.response?.data);
       }
@@ -47,7 +67,7 @@ export default class Main extends Component<{}, MainState> {
   render() {
     const { genres, movies, genreId, isLoading, pageSize, search } = this.state;
 
-    if (isLoading) return <Spin />;
+    if (isLoading) return <Spin className="flex  items-center justify-center" />;
 
     const filteredMovies = genreId === 'all' ? movies : movies.filter(m => m.genre.id === genreId);
     const searchedMovies = filteredMovies.filter(
@@ -62,7 +82,9 @@ export default class Main extends Component<{}, MainState> {
         <Tabs
           animated
           activeKey={genreId}
-          onChange={key => this.setState({ genreId: key, search: '' })}
+          onChange={key => {
+            this.setState({ genreId: key, search: '' });
+          }}
           size="large"
           items={genres.map<Tab>(item => ({
             key: item.id,
@@ -102,9 +124,9 @@ export default class Main extends Component<{}, MainState> {
                   {
                     title: 'Actions',
                     width: 100,
-                    render: () => (
+                    render: movie => (
                       <div className="flex gap-2">
-                        <Button type="primary" danger>
+                        <Button onClick={() => this.delete(movie.id)} type="primary" danger>
                           Delete
                         </Button>
                       </div>
@@ -116,7 +138,7 @@ export default class Main extends Component<{}, MainState> {
             )
           }))}
         />
-        <Input
+        <Input.Search
           value={search}
           onChange={e => this.setState({ search: e.target.value })}
           allowClear

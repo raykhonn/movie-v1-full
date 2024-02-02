@@ -11,6 +11,7 @@ export namespace IEntity {
     genre: IEntity.Genre;
     stock: number;
     rate: number;
+    like?: string;
   }
 }
 
@@ -35,7 +36,7 @@ export namespace IApi {
     export namespace List {
       export interface Response extends Array<IEntity.Movie> {}
     }
-
+    
     export namespace Single {
       export interface Request {
         movieId: string;
@@ -48,6 +49,12 @@ export namespace IApi {
         token: string;
       }
       export interface Response extends IEntity.Movie {}
+    }
+    export namespace Delete {
+      export interface Request  {
+        id: string;
+      }
+      export interface Response  {}
     }
 
     export namespace Update {

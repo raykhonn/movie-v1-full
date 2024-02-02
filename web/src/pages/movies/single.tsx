@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavigateFunction } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import { Button, Input, message, Select, Typography } from 'antd';
+import { Button, Form, Input, message, Select, Typography } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 
 import { Api, Mappers } from 'modules/movies';
@@ -31,8 +31,8 @@ export default class Single extends Component<SingleProps, SingleState> {
     const { values, movieId } = this.state;
 
     const token = localStorage.getItem('token') || '';
-
-    const isUpdate = movieId !== 'add';
+    
+    const isUpdate = movieId !== 'new';
 
     try {
       if (isUpdate) await Api.Movie.Update({ ...values, movieId, token });
@@ -55,11 +55,16 @@ export default class Single extends Component<SingleProps, SingleState> {
     try {
       const { data } = await Api.Genre.List();
       const genres = (data || []).map(Mappers.Genre);
-      const options: DefaultOptionType[] = genres.map(item => ({ label: item.name, value: item.id }));
+      const options: DefaultOptionType[] = genres.map((item: { name: any; id: any }) => ({
+        label: item.name,
+        value: item.id
+      }));
 
       const { movieId } = this.state;
 
-      if (movieId !== 'add') {
+      if (movieId !== 'new') {
+        console.log(movieId);
+        
         const movieResponse = await Api.Movie.Single({ movieId });
         const movie = Mappers.Movie(movieResponse.data);
         this.setState({
@@ -77,42 +82,52 @@ export default class Single extends Component<SingleProps, SingleState> {
 
   render() {
     const { values, options, movieId } = this.state;
-    const isUpdate = movieId !== 'add';
+    const isUpdate = movieId !== 'new';
     return (
       <div className=" container mx-auto flex h-full flex-col items-center  gap-2">
-        <form onSubmit={this.handleSubmit} className="flex w-[800px] flex-col gap-2">
+        <Form onFinish={this.handleSubmit} className="flex w-[800px] flex-col gap-2">
           <Typography className="text-center text-3xl">{isUpdate ? 'Update' : 'Add'} Movie</Typography>
-          <Input
-            value={values.title}
-            onChange={e => this.handleChange('title', e.target.value)}
-            placeholder="Title"
-            size="large"
-          />
-          <Select
-            value={values.genreId}
-            onChange={genreId => this.handleChange('genreId', genreId)}
-            placeholder="Select genre"
-            size="large"
-            options={options}
-          />
-          <Input
-            value={values.stock}
-            onChange={e => this.handleChange('stock', e.target.valueAsNumber)}
-            type="number"
-            placeholder="Number in stock"
-            size="large"
-          />
-          <Input
-            value={values.rate}
-            onChange={e => this.handleChange('rate', e.target.valueAsNumber)}
-            type="number"
-            placeholder="Daily rental rate"
-            size="large"
-          />
-          <Button type="primary" htmlType="submit" size="large">
-            {isUpdate ? 'Save' : 'Add'}
-          </Button>
-        </form>
+          <Form.Item  >
+            <Input
+              value={values.title}
+              onChange={e => this.handleChange('title', e.target.value)}
+              placeholder="Title"
+              size="large" 
+            />
+          </Form.Item>
+          <Form.Item>
+            <Select
+              value={values.genreId}
+              onChange={genreId => this.handleChange('genreId', genreId)}
+              placeholder="Select genre"
+              size="large"
+              options={options}
+            />
+          </Form.Item>
+          <Form.Item>
+            <Input
+              value={values.stock}
+              onChange={e => this.handleChange('stock', e.target.valueAsNumber)}
+              type="number"
+              placeholder="Number in stock"
+              size="large"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Input
+              value={values.rate}
+              onChange={e => this.handleChange('rate', e.target.valueAsNumber)}
+              type="number"
+              placeholder="Daily rental rate"
+              size="large"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" size="large">
+              {isUpdate ? 'Save' : 'Add'}
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
     );
   }
