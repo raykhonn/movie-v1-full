@@ -26,7 +26,7 @@ const Login: React.FC = () => {
   return (
     <div className=" container mx-auto flex flex-col items-center pt-24">
       <Form autoComplete="off" onFinish={handleSubmit} className="flex w-[500px] flex-col gap-2">
-        <Typography className="text-center text-3xl">Login Form</Typography>
+        <Typography className="text-center text-3xl text-blue-700">Login Form</Typography>
         <Form.Item
           rules={[
             {
@@ -39,7 +39,7 @@ const Login: React.FC = () => {
           hasFeedback
           name="email"
         >
-          <Input id="email" type="email" placeholder="email" size="large" />
+          <Input id="email" type="email" placeholder="Email" size="large" />
         </Form.Item>
         <Form.Item
           rules={[
@@ -47,20 +47,20 @@ const Login: React.FC = () => {
               required: true,
               message: 'Enter your password',
               whitespace: true,
-              min: 6
+              min: 4
             }
           ]}
           hasFeedback
           name="password"
         >
-          <Input.Password id="password" placeholder="password" size="large" />
+          <Input.Password id="password" placeholder="Password" size="large" />
         </Form.Item>
         <Form.Item>
           <Button block type="primary" htmlType="submit" size="large">
             Login
           </Button>
         </Form.Item>
-        <NavLink to="/auth/register">Register</NavLink>
+        <NavLink to="/auth/register">go to register</NavLink>
       </Form>
     </div>
   );

@@ -31,7 +31,7 @@ export default class Single extends Component<SingleProps, SingleState> {
     const { values, movieId } = this.state;
 
     const token = localStorage.getItem('token') || '';
-    
+
     const isUpdate = movieId !== 'new';
 
     try {
@@ -64,7 +64,7 @@ export default class Single extends Component<SingleProps, SingleState> {
 
       if (movieId !== 'new') {
         console.log(movieId);
-        
+
         const movieResponse = await Api.Movie.Single({ movieId });
         const movie = Mappers.Movie(movieResponse.data);
         this.setState({
@@ -84,15 +84,15 @@ export default class Single extends Component<SingleProps, SingleState> {
     const { values, options, movieId } = this.state;
     const isUpdate = movieId !== 'new';
     return (
-      <div className=" container mx-auto flex h-full flex-col items-center  gap-2">
-        <Form onFinish={this.handleSubmit} className="flex w-[800px] flex-col gap-2">
-          <Typography className="text-center text-3xl">{isUpdate ? 'Update' : 'Add'} Movie</Typography>
-          <Form.Item  >
+      <div className=" container mx-auto flex flex-col items-center pt-24">
+        <Form onFinish={this.handleSubmit} className="flex w-[500px] flex-col gap-2">
+          <Typography className="text-center text-3xl text-blue-700">{isUpdate ? 'Update' : 'Add'} Movie</Typography>
+          <Form.Item>
             <Input
               value={values.title}
               onChange={e => this.handleChange('title', e.target.value)}
               placeholder="Title"
-              size="large" 
+              size="large"
             />
           </Form.Item>
           <Form.Item>
@@ -123,7 +123,7 @@ export default class Single extends Component<SingleProps, SingleState> {
             />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" size="large">
+            <Button block type="primary" htmlType="submit" size="large">
               {isUpdate ? 'Save' : 'Add'}
             </Button>
           </Form.Item>

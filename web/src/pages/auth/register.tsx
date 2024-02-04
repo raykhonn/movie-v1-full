@@ -2,7 +2,7 @@ import { Button, Form, Input, message } from 'antd';
 import Typography from 'antd/es/typography/Typography';
 import { Api, Types } from 'modules/auth';
 import React from 'react';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -18,9 +18,9 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto flex flex-col items-center justify-center gap-2 ">
-      <Form autoComplete="off" onFinish={handleSubmit} className="flex w-[800px] flex-col gap-2">
-        <Typography className="text-center text-3xl">Register Form</Typography>
+    <div className=" container mx-auto flex flex-col items-center pt-24">
+      <Form autoComplete="off" onFinish={handleSubmit} className="flex w-[500px] flex-col gap-2">
+        <Typography className="text-center text-3xl text-blue-700">Register Form</Typography>
         <Form.Item
           rules={[
             {
@@ -34,7 +34,7 @@ const Register: React.FC = () => {
           hasFeedback
           name="name"
         >
-          <Input id="name" placeholder="Your name" size="large" />
+          <Input id="name" placeholder="Full name" size="large" />
         </Form.Item>
         <Form.Item
           rules={[
@@ -48,7 +48,7 @@ const Register: React.FC = () => {
           hasFeedback
           name="email"
         >
-          <Input id="email" type="email" placeholder="email" size="large" />
+          <Input id="email" type="email" placeholder="Email" size="large" />
         </Form.Item>
         <Form.Item
           rules={[
@@ -56,20 +56,20 @@ const Register: React.FC = () => {
               required: true,
               message: 'Enter your password',
               whitespace: true,
-              min: 6
+              min: 4
             }
           ]}
           hasFeedback
           name="password"
         >
-          <Input.Password id="password" placeholder="password" size="large" />
+          <Input.Password id="password" placeholder="Password" size="large" />
         </Form.Item>
         <Form.Item>
-          <Button block type="primary" htmlType="submit">
+          <Button block type="primary" size="large" htmlType="submit">
             Register
           </Button>
         </Form.Item>
-       </Form>
+      </Form>
     </div>
   );
 };
