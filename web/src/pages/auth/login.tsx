@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  
+
   const handleSubmit = async (values: Types.IForm.Login) => {
     try {
       const loginRes = await Api.Login(values);
@@ -24,8 +24,8 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className=" container mx-auto flex h-full flex-col items-center  gap-2">
-      <Form autoComplete="off" onFinish={handleSubmit} className="flex w-[800px] flex-col gap-2">
+    <div className=" container mx-auto flex flex-col items-center pt-24">
+      <Form autoComplete="off" onFinish={handleSubmit} className="flex w-[500px] flex-col gap-2">
         <Typography className="text-center text-3xl">Login Form</Typography>
         <Form.Item
           rules={[
